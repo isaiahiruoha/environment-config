@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dev Workflow Shortcuts</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #011423;
+    color: #CBE0F0;
+    font-family: "Hack Nerd Font", "JetBrains Mono", "Fira Code", monospace;
+    font-size: 13px;
+    padding: 32px;
+  }
+  h1 {
+    color: #44FFB1;
+    font-size: 16px;
+    margin-bottom: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .subtitle {
+    color: #627E97;
+    font-size: 11px;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    background: #0a2030;
+    border: 1px solid #143652;
+    color: #627E97;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.15s;
+  }
+  .tab:hover { border-color: #0FC5ED; color: #CBE0F0; }
+  .tab.active { background: #143652; border-color: #0FC5ED; color: #44FFB1; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .section {
+    background: #0a2030;
+    border: 1px solid #143652;
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .section h2 {
+    color: #0FC5ED;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #143652;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  tr + tr td { padding-top: 7px; }
+  td:first-child {
+    width: 45%;
+    padding-right: 12px;
+    vertical-align: top;
+    word-break: break-all;
+  }
+  td:last-child {
+    color: #B4D0E9;
+    vertical-align: top;
+  }
+  kbd {
+    display: inline-block;
+    background: #143652;
+    color: #47FF9C;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: inherit;
+    font-size: 11px;
+    margin: 1px 1px 2px 0;
+    word-break: keep-all;
+  }
+  kbd.orange { color: #FFE073; }
+  kbd.red { color: #E52E2E; }
+  kbd.dim { color: #627E97; }
+  .note { color: #627E97; font-size: 11px; margin-top: 10px; padding-top: 8px; border-top: 1px solid #143652; }
+  .cmd {
+    display: inline-block;
+    background: #0d1f2d;
+    color: #44FFB1;
+    border: 1px solid #143652;
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-size: 11px;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<h1>Dev Workflow Shortcuts</h1>
+<p class="subtitle">Leader = Space &nbsp;·&nbsp; Tmux prefix = Ctrl+a &nbsp;·&nbsp; Rectangle = Ctrl+Opt</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('vim')">Vim / Neovim</button>
+  <button class="tab" onclick="show('tmux')">tmux</button>
+  <button class="tab" onclick="show('macos')">macOS</button>
+  <button class="tab" onclick="show('git')">Git</button>
+  <button class="tab" onclick="show('claude')">Claude Code</button>
+  <button class="tab" onclick="show('kiro')">Kiro</button>
+  <button class="tab" onclick="show('brazil')">Brazil / AWS</button>
+</div>
+
+<!-- VIM -->
+<div id="vim" class="panel active">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Modes</h2>
+      <table>
+        <tr><td><kbd>i</kbd></td><td>Insert mode</td></tr>
+        <tr><td><kbd>jk</kbd></td><td>Back to normal mode</td></tr>
+        <tr><td><kbd>v</kbd> / <kbd>V</kbd></td><td>Visual / visual line</td></tr>
+        <tr><td><kbd>Ctrl+v</kbd></td><td>Visual block</td></tr>
+        <tr><td><kbd>:</kbd></td><td>Command mode</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Navigation</h2>
+      <table>
+        <tr><td><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></td><td>Left / down / up / right</td></tr>
+        <tr><td><kbd>w</kbd> / <kbd>b</kbd></td><td>Next / prev word</td></tr>
+        <tr><td><kbd>0</kbd> / <kbd>$</kbd></td><td>Line start / end</td></tr>
+        <tr><td><kbd>gg</kbd> / <kbd>G</kbd></td><td>File top / bottom</td></tr>
+        <tr><td><kbd>Ctrl+d</kbd> / <kbd>Ctrl+u</kbd></td><td>Half page down / up</td></tr>
+        <tr><td><kbd>%</kbd></td><td>Jump to matching bracket</td></tr>
+        <tr><td><kbd>Ctrl+o</kbd> / <kbd>Ctrl+i</kbd></td><td>Jump back / forward in history</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Editing</h2>
+      <table>
+        <tr><td><kbd>dd</kbd> / <kbd>yy</kbd></td><td>Delete / copy line</td></tr>
+        <tr><td><kbd>p</kbd> / <kbd>P</kbd></td><td>Paste after / before</td></tr>
+        <tr><td><kbd>u</kbd> / <kbd>Ctrl+r</kbd></td><td>Undo / redo</td></tr>
+        <tr><td><kbd>ciw</kbd></td><td>Change inner word</td></tr>
+        <tr><td><kbd>di"</kbd></td><td>Delete inside quotes</td></tr>
+        <tr><td><kbd>.</kbd></td><td>Repeat last change</td></tr>
+        <tr><td><kbd>s</kbd></td><td>Substitute with motion</td></tr>
+        <tr><td><kbd>gc</kbd></td><td>Toggle comment (visual)</td></tr>
+        <tr><td><kbd>Space mp</kbd></td><td>Format file</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Files & Search</h2>
+      <table>
+        <tr><td><kbd>:w</kbd> / <kbd>:wq</kbd> / <kbd>:q!</kbd></td><td>Save / save+quit / force quit</td></tr>
+        <tr><td><kbd>Space ff</kbd></td><td>Find files</td></tr>
+        <tr><td><kbd>Space fs</kbd></td><td>Search text in project</td></tr>
+        <tr><td><kbd>Space fr</kbd></td><td>Recent files</td></tr>
+        <tr><td><kbd>Space fc</kbd></td><td>Find word under cursor</td></tr>
+        <tr><td><kbd>Space nh</kbd></td><td>Clear search highlights</td></tr>
+        <tr><td><kbd>Space o</kbd></td><td>Oil file explorer</td></tr>
+        <tr><td><kbd>Space ee</kbd></td><td>Toggle file tree</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>LSP & Diagnostics</h2>
+      <table>
+        <tr><td><kbd>gd</kbd></td><td>Go to definition</td></tr>
+        <tr><td><kbd>gR</kbd></td><td>Show references</td></tr>
+        <tr><td><kbd>gi</kbd></td><td>Go to implementation</td></tr>
+        <tr><td><kbd>K</kbd></td><td>Hover docs</td></tr>
+        <tr><td><kbd>Space ca</kbd></td><td>Code actions</td></tr>
+        <tr><td><kbd>Space rn</kbd></td><td>Rename symbol</td></tr>
+        <tr><td><kbd>[d</kbd> / <kbd>]d</kbd></td><td>Prev / next diagnostic</td></tr>
+        <tr><td><kbd>Space d</kbd></td><td>Show line diagnostic</td></tr>
+        <tr><td><kbd>Space xw</kbd></td><td>Workspace diagnostics</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Git (in Neovim)</h2>
+      <table>
+        <tr><td><kbd>Space lg</kbd></td><td>Lazygit</td></tr>
+        <tr><td><kbd>Space ng</kbd></td><td>Neogit</td></tr>
+        <tr><td><kbd>Space nd</kbd></td><td>Diffview</td></tr>
+        <tr><td><kbd>]h</kbd> / <kbd>[h</kbd></td><td>Next / prev hunk</td></tr>
+        <tr><td><kbd>Space hs</kbd></td><td>Stage hunk</td></tr>
+        <tr><td><kbd>Space hr</kbd></td><td>Reset hunk</td></tr>
+        <tr><td><kbd>Space hb</kbd></td><td>Blame line</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Splits & Tabs</h2>
+      <table>
+        <tr><td><kbd>Space sv</kbd> / <kbd>Space sh</kbd></td><td>Split vertical / horizontal</td></tr>
+        <tr><td><kbd>Space sx</kbd></td><td>Close split</td></tr>
+        <tr><td><kbd>Space sm</kbd></td><td>Maximize / restore split</td></tr>
+        <tr><td><kbd>Ctrl+h/j/k/l</kbd></td><td>Navigate panes (tmux+vim)</td></tr>
+        <tr><td><kbd>Space to</kbd></td><td>New tab</td></tr>
+        <tr><td><kbd>Space tn</kbd> / <kbd>Space tp</kbd></td><td>Next / prev tab</td></tr>
+        <tr><td><kbd>Space tx</kbd></td><td>Close tab</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Sessions & Todos</h2>
+      <table>
+        <tr><td><kbd>Space ws</kbd></td><td>Save session</td></tr>
+        <tr><td><kbd>Space wr</kbd></td><td>Restore session</td></tr>
+        <tr><td><kbd>Space ft</kbd></td><td>Find todos in project</td></tr>
+        <tr><td><kbd>]t</kbd> / <kbd>[t</kbd></td><td>Next / prev todo</td></tr>
+        <tr><td><kbd>Space xt</kbd></td><td>Todos in trouble panel</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- TMUX -->
+<div id="tmux" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Prefix</h2>
+      <table>
+        <tr><td><kbd class="orange">Ctrl+a</kbd></td><td>Prefix key (hold, then next key)</td></tr>
+      </table>
+      <p class="note">Bindings below need prefix first unless marked (no prefix)</p>
+    </div>
+
+    <div class="section">
+      <h2>Panes</h2>
+      <table>
+        <tr><td><kbd>prefix |</kbd></td><td>Split pane horizontal</td></tr>
+        <tr><td><kbd>prefix -</kbd></td><td>Split pane vertical</td></tr>
+        <tr><td><kbd>Ctrl+h/j/k/l</kbd></td><td>Navigate panes — no prefix</td></tr>
+        <tr><td><kbd>prefix h/j/k/l</kbd></td><td>Resize pane</td></tr>
+        <tr><td><kbd>prefix m</kbd></td><td>Maximize / restore pane</td></tr>
+        <tr><td><kbd>prefix x</kbd></td><td>Kill pane</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Windows</h2>
+      <table>
+        <tr><td><kbd>prefix c</kbd></td><td>New window</td></tr>
+        <tr><td><kbd>prefix n</kbd> / <kbd>prefix p</kbd></td><td>Next / prev window</td></tr>
+        <tr><td><kbd>prefix 0-9</kbd></td><td>Jump to window N</td></tr>
+        <tr><td><kbd>prefix ,</kbd></td><td>Rename window</td></tr>
+        <tr><td><kbd>prefix &amp;</kbd></td><td>Kill window</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Sessions</h2>
+      <table>
+        <tr><td><kbd>prefix d</kbd></td><td>Detach session</td></tr>
+        <tr><td><kbd>prefix $</kbd></td><td>Rename session</td></tr>
+        <tr><td><kbd>prefix s</kbd></td><td>List / switch sessions</td></tr>
+        <tr><td><kbd>prefix r</kbd></td><td>Reload tmux config</td></tr>
+        <tr><td><kbd>prefix Ctrl+s</kbd></td><td>Save session (resurrect)</td></tr>
+        <tr><td><kbd>prefix Ctrl+r</kbd></td><td>Restore session (resurrect)</td></tr>
+      </table>
+      <p class="note">Auto-saves every 15 min · restores on tmux start</p>
+    </div>
+
+    <div class="section">
+      <h2>Copy Mode</h2>
+      <table>
+        <tr><td><kbd>prefix [</kbd></td><td>Enter copy mode (scroll up)</td></tr>
+        <tr><td><kbd>v</kbd></td><td>Begin selection</td></tr>
+        <tr><td><kbd>y</kbd></td><td>Copy to clipboard (pbcopy)</td></tr>
+        <tr><td><kbd>q</kbd> / <kbd>Esc</kbd></td><td>Exit copy mode</td></tr>
+        <tr><td><kbd>Right-click</kbd></td><td>Paste from clipboard</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- MACOS -->
+<div id="macos" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Rectangle — Window Management</h2>
+      <table>
+        <tr><td><kbd>Ctrl+Opt+←</kbd> / <kbd>→</kbd></td><td>Left / right half</td></tr>
+        <tr><td><kbd>Ctrl+Opt+↑</kbd> / <kbd>↓</kbd></td><td>Top / bottom half</td></tr>
+        <tr><td><kbd>Ctrl+Opt+Return</kbd></td><td>Fullscreen</td></tr>
+        <tr><td><kbd>Ctrl+Opt+C</kbd></td><td>Center window</td></tr>
+        <tr><td><kbd>Ctrl+Opt+U/I/J/K</kbd></td><td>Quarter corners (TL/TR/BL/BR)</td></tr>
+        <tr><td><kbd>Ctrl+Opt+D</kbd> / <kbd>E</kbd></td><td>Left / right two-thirds</td></tr>
+        <tr><td><kbd>Ctrl+Opt+B</kbd> / <kbd>N</kbd></td><td>Smaller / larger</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>AltTab — Window Switching</h2>
+      <table>
+        <tr><td><kbd>Opt+Tab</kbd></td><td>Switch all windows</td></tr>
+        <tr><td><kbd>Opt+`</kbd></td><td>Switch same-app windows</td></tr>
+        <tr><td><kbd>Q</kbd> while open</td><td>Quit app</td></tr>
+        <tr><td><kbd>H</kbd> while open</td><td>Hide app</td></tr>
+        <tr><td><kbd>Space</kbd> while open</td><td>Preview window</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>macOS Universal</h2>
+      <table>
+        <tr><td><kbd>Cmd+Space</kbd></td><td>Spotlight</td></tr>
+        <tr><td><kbd>Cmd+Tab</kbd></td><td>App switcher</td></tr>
+        <tr><td><kbd>Cmd+`</kbd></td><td>Same-app window switcher</td></tr>
+        <tr><td><kbd>Cmd+W</kbd></td><td>Close window / tab</td></tr>
+        <tr><td><kbd>Cmd+Q</kbd></td><td>Quit app</td></tr>
+        <tr><td><kbd>Cmd+Ctrl+Q</kbd></td><td>Lock screen</td></tr>
+        <tr><td><kbd>Cmd+Shift+4</kbd></td><td>Screenshot selection</td></tr>
+        <tr><td><kbd>Cmd+Shift+5</kbd></td><td>Screenshot / screen record</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Terminal (WezTerm)</h2>
+      <table>
+        <tr><td><kbd>Cmd+T</kbd></td><td>New tab</td></tr>
+        <tr><td><kbd>Cmd+W</kbd></td><td>Close tab</td></tr>
+        <tr><td><kbd>Cmd+1-9</kbd></td><td>Switch tab</td></tr>
+        <tr><td><kbd>Cmd+R</kbd></td><td>Reload config</td></tr>
+        <tr><td><kbd>Cmd++</kbd> / <kbd>Cmd+-</kbd></td><td>Font size up / down</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- GIT -->
+<div id="git" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Daily Flow</h2>
+      <table>
+        <tr><td><span class="cmd">git status</span></td><td>What's changed</td></tr>
+        <tr><td><span class="cmd">git add -p</span></td><td>Stage hunks interactively</td></tr>
+        <tr><td><span class="cmd">git commit -m "msg"</span></td><td>Commit staged changes</td></tr>
+        <tr><td><span class="cmd">git push</span></td><td>Push to remote</td></tr>
+        <tr><td><span class="cmd">git pull --rebase</span></td><td>Pull + rebase (cleaner history)</td></tr>
+        <tr><td><span class="cmd">git stash</span> / <span class="cmd">pop</span></td><td>Stash / restore changes</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Branches</h2>
+      <table>
+        <tr><td><span class="cmd">git checkout -b name</span></td><td>Create + switch to branch</td></tr>
+        <tr><td><span class="cmd">git checkout main</span></td><td>Switch to main</td></tr>
+        <tr><td><span class="cmd">git branch -d name</span></td><td>Delete local branch</td></tr>
+        <tr><td><span class="cmd">git branch -a</span></td><td>List all branches</td></tr>
+        <tr><td><span class="cmd">git merge name</span></td><td>Merge branch into current</td></tr>
+        <tr><td><span class="cmd">git rebase main</span></td><td>Rebase current onto main</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Inspection</h2>
+      <table>
+        <tr><td><span class="cmd">git log --oneline</span></td><td>Compact commit history</td></tr>
+        <tr><td><span class="cmd">git diff</span></td><td>Unstaged changes</td></tr>
+        <tr><td><span class="cmd">git diff --staged</span></td><td>Staged changes</td></tr>
+        <tr><td><span class="cmd">git blame file</span></td><td>Who changed each line</td></tr>
+        <tr><td><span class="cmd">git show SHA</span></td><td>Show a commit</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Fixes & Undos</h2>
+      <table>
+        <tr><td><span class="cmd">git commit --amend</span></td><td>Edit last commit message</td></tr>
+        <tr><td><span class="cmd">git reset HEAD~1</span></td><td>Undo last commit (keep changes)</td></tr>
+        <tr><td><span class="cmd">git restore file</span></td><td>Discard unstaged changes</td></tr>
+        <tr><td><span class="cmd">git restore --staged file</span></td><td>Unstage file</td></tr>
+        <tr><td><span class="cmd">git clean -fd</span></td><td>Remove untracked files</td></tr>
+      </table>
+      <p class="note">Never force-push to main/master</p>
+    </div>
+
+    <div class="section">
+      <h2>Lazygit (inside Neovim)</h2>
+      <table>
+        <tr><td><kbd>Space</kbd></td><td>Stage / unstage file</td></tr>
+        <tr><td><kbd>a</kbd></td><td>Stage all</td></tr>
+        <tr><td><kbd>c</kbd></td><td>Commit</td></tr>
+        <tr><td><kbd>P</kbd></td><td>Push</td></tr>
+        <tr><td><kbd>p</kbd></td><td>Pull</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Expand file → stage hunks</td></tr>
+        <tr><td><kbd>b</kbd></td><td>Branches panel</td></tr>
+        <tr><td><kbd>?</kbd></td><td>Show all keymaps</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- CLAUDE CODE -->
+<div id="claude" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>In-Chat Keys</h2>
+      <table>
+        <tr><td><kbd>Enter</kbd></td><td>Send message</td></tr>
+        <tr><td><kbd>Shift+Enter</kbd></td><td>New line</td></tr>
+        <tr><td><kbd>↑</kbd></td><td>Edit last message</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Cancel current response</td></tr>
+        <tr><td><kbd>Ctrl+C</kbd></td><td>Interrupt tool / cancel</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Slash Commands</h2>
+      <table>
+        <tr><td><kbd>/clear</kbd></td><td>Clear context window</td></tr>
+        <tr><td><kbd>/compact</kbd></td><td>Compress context with summary</td></tr>
+        <tr><td><kbd>/memory</kbd></td><td>View / edit memory files</td></tr>
+        <tr><td><kbd>/config</kbd></td><td>Open settings</td></tr>
+        <tr><td><kbd>/help</kbd></td><td>Show help</td></tr>
+        <tr><td><kbd>!</kbd> prefix</td><td>Run shell command inline</td></tr>
+        <tr><td><kbd>/review</kbd></td><td>Review current diff</td></tr>
+        <tr><td><kbd>/init</kbd></td><td>Init CLAUDE.md for repo</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Config Files</h2>
+      <table>
+        <tr><td><kbd>~/.claude/CLAUDE.md</kbd></td><td>Global instructions</td></tr>
+        <tr><td><kbd>~/.claude/rules/</kbd></td><td>Hard rules (always injected)</td></tr>
+        <tr><td><kbd>~/.claude/projects/.../memory/</kbd></td><td>Persistent memory</td></tr>
+        <tr><td><kbd>AGENTS.md</kbd></td><td>Per-repo agent instructions</td></tr>
+        <tr><td><kbd>CLAUDE.md</kbd></td><td>Per-repo instructions</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Agentic Tips</h2>
+      <table>
+        <tr><td><kbd>use a workflow</kbd></td><td>Trigger multi-agent orchestration</td></tr>
+        <tr><td><kbd>/clear</kbd> between tasks</td><td>Keep context focused</td></tr>
+        <tr><td>Ask to spawn agents</td><td>Parallel independent investigations</td></tr>
+        <tr><td>CLAUDE.md + memory</td><td>Persist preferences across sessions</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- KIRO -->
+<div id="kiro" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Editor Keys</h2>
+      <table>
+        <tr><td><kbd>Cmd+Shift+P</kbd></td><td>Command palette</td></tr>
+        <tr><td><kbd>Cmd+P</kbd></td><td>Quick file open</td></tr>
+        <tr><td><kbd>Cmd+Shift+F</kbd></td><td>Search across project</td></tr>
+        <tr><td><kbd>Ctrl+`</kbd></td><td>Toggle terminal</td></tr>
+        <tr><td><kbd>Cmd+Shift+E</kbd></td><td>File explorer</td></tr>
+        <tr><td><kbd>Cmd+B</kbd></td><td>Toggle sidebar</td></tr>
+        <tr><td><kbd>Cmd+\</kbd></td><td>Split editor</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Agent Chat</h2>
+      <table>
+        <tr><td><kbd>@agent-name</kbd></td><td>Switch to named agent</td></tr>
+        <tr><td><kbd>@pinwheel-developer</kbd></td><td>MWAA dev agent</td></tr>
+        <tr><td><kbd>@pinwheel-onboarding</kbd></td><td>MWAA onboarding agent</td></tr>
+        <tr><td><kbd>@amzn-pipeline-assistant</kbd></td><td>Pipeline troubleshooting</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Config Locations</h2>
+      <table>
+        <tr><td><kbd>~/.kiro/steering/</kbd></td><td>Always-on instructions (like CLAUDE.md)</td></tr>
+        <tr><td><kbd>~/.kiro/agents/</kbd></td><td>Agent spec JSON files</td></tr>
+        <tr><td><kbd>~/.kiro/settings/mcp.json</kbd></td><td>MCP server config</td></tr>
+        <tr><td><kbd>.kiro/steering/</kbd> in repo</td><td>Per-project steering</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- BRAZIL / AWS -->
+<div id="brazil" class="panel">
+  <div class="grid">
+
+    <div class="section">
+      <h2>Brazil Workspace</h2>
+      <table>
+        <tr><td><span class="cmd">brazil workspace show</span></td><td>Show workspace info</td></tr>
+        <tr><td><span class="cmd">brazil workspace use -p &lt;pkg&gt;</span></td><td>Pull package into workspace</td></tr>
+        <tr><td><span class="cmd">brazil workspace merge</span></td><td>Resolve missing dependencies</td></tr>
+        <tr><td><span class="cmd">brazil-build release</span> / <span class="cmd">bb</span></td><td>Build current package</td></tr>
+        <tr><td><span class="cmd">brazil-recursive-cmd -allPackages bb</span></td><td>Build all packages</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Brazil Build & Review</h2>
+      <table>
+        <tr><td><span class="cmd">bb &gt; build.log 2&gt;&1</span></td><td>Build — save log to file</td></tr>
+        <tr><td><span class="cmd">tail -n 20 build.log</span></td><td>Check build result</td></tr>
+        <tr><td><span class="cmd">grep -i error build.log</span></td><td>Find errors in log</td></tr>
+        <tr><td><span class="cmd">cr create</span></td><td>Create code review (CRUX)</td></tr>
+        <tr><td><span class="cmd">cr checkout &lt;id&gt;</span></td><td>Checkout a CR locally</td></tr>
+        <tr><td><span class="cmd">bb sync</span></td><td>Sync Brazil branch</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>AWS CLI</h2>
+      <table>
+        <tr><td><span class="cmd">aws sts get-caller-identity</span></td><td>Check active credentials</td></tr>
+        <tr><td><span class="cmd">ada credentials update</span></td><td>Refresh ADA credentials</td></tr>
+        <tr><td><span class="cmd">aws --profile &lt;name&gt; ...</span></td><td>Use named profile</td></tr>
+        <tr><td><span class="cmd">aws logs tail &lt;group&gt; --follow</span></td><td>Live log stream</td></tr>
+        <tr><td><span class="cmd">aws cloudformation describe-stack-events --stack-name &lt;n&gt;</span></td><td>CFN stack events</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>MWAA / Airflow</h2>
+      <table>
+        <tr><td><span class="cmd">aws mwaa list-environments</span></td><td>List MWAA environments</td></tr>
+        <tr><td><span class="cmd">aws mwaa get-environment --name &lt;n&gt;</span></td><td>Get environment details</td></tr>
+        <tr><td><span class="cmd">aws mwaa create-cli-token --name &lt;n&gt;</span></td><td>Get Airflow CLI token</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Prod Safety</h2>
+      <table>
+        <tr><td><kbd class="red">No prod/prd tag?</kbd></td><td>Assume production</td></tr>
+        <tr><td><kbd>ReadOnly first</kbd></td><td>Prefer read-only credentials</td></tr>
+        <tr><td><kbd>Describe before modify</kbd></td><td>Read before any write op</td></tr>
+        <tr><td><kbd class="red">Delete = confirm</kbd></td><td>Always get explicit approval</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
